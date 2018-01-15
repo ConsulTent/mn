@@ -24,6 +24,11 @@ BINCLI="${BINC%?}-cli"
 CPORT='8329'
 #
 
+if [ ! -d "${CHOME}" ]; then
+	echo "Coin home directory $CHOME not found.  Please install and run $CNAME"
+exit
+fi
+
 echo "${BINC} report on $DATE" 
 if [ -n "$LSB" ]; then
 LSBREL=`${LSB} -crsi`
@@ -37,13 +42,16 @@ echo "User: ${ID}"
 echo "Coin: ${BINC}" 
 
 DEBUGLOG="${CHOME}/debug.log"
+if [ ! -f "${DEBUGLOG}" ]; then
+	echo "${DEBUGLOG} does not exist.  Have you run ${BINC}?"
+else
 DEBUGLOGS=`ls -alh ${DEBUGLOG}|cut -d' ' -f5|grep 'G'`
-
+fi
 
 if [ "$DF" -gt "90" ]; then
   echo "Warning: Your filesystem is almost full."
 	let "ISSUES++"
-  if [ -n "$DEBUGLOG" ]; then
+  if [ -n "$DEBUGLOGS" ]; then
 	echo "Your debug log \[$DEBUGLOG\] is ${DEBUGLOGS}. This is BIG."
 	let "ISSUES++"
   fi
