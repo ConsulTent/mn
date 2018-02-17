@@ -7,7 +7,7 @@ DATE=`date '+%y%m%d'`
 LSB=`which lsb_release`
 ID=`whoami`
 PWD=`pwd`
-DF=`df -l --output=source,pcent |egrep -v 'none|tmpfs|Filesystem' |cut -d' ' -f3|cut -d% -f1`
+DF=`df -l --output=source,pcent |egrep -v 'none|tmpfs|Filesystem|udev' | sed -r 's,^[/a-Z0-9?]*\s*([0-9]*)%,\1,g'`
 
 ISSUES=0
 
